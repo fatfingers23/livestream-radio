@@ -2,7 +2,6 @@
   <CurrentlyPlaying
     :currentSet="currentSet"
     :currentStation="currentStation"
-    :userData="userData"
     @changeStation="changeStation"
     @deleteStation="deleteStation"
     @addToSet="addToSet"

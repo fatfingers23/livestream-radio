@@ -7,14 +7,19 @@
       :description="`listening to ${currentStation.name} on Livestream Radio`"
     ></vue-headful>
 
-    <AppBars :view="view" :backgroundColor="backgroundColor" @changeView="changeView" @toggleDarkMode="toggleDarkMode"></AppBars>
+    <AppBars
+      :view="view"
+      :backgroundColor="backgroundColor"
+      @changeView="changeView"
+      @toggleDarkMode="toggleDarkMode"
+    ></AppBars>
 
     <!-- ==== MODALS ===== -->
 
     <!-- add station button & modal -->
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
-        <div :class="['add-button', (userData.darkMode ? 'dark-mode': 'light-mode')]" >
+        <div :class="['add-button', (userData.darkMode ? 'dark-mode': 'light-mode')]">
           <v-btn fab dark color="blue" x-large v-on="on">
             <v-icon x-large>add</v-icon>
           </v-btn>
@@ -85,16 +90,12 @@
       <v-snackbar v-model="snackbar" :timeout="4000" bottom right>
         {{snackbarText}}
         <v-btn color="pink" text @click="handleSnackbarMethod">{{snackbarButton}}</v-btn>
-      </v-snackbar> -->
+      </v-snackbar>-->
 
-          <router-view/>
-
+      <router-view />
     </v-content>
 
-    <Footer
-      @footerClick="handleFooterClick"
-      :backgroundColor="backgroundColor"
-    ></Footer>
+    <Footer @footerClick="handleFooterClick" :backgroundColor="backgroundColor"></Footer>
 
     <v-navigation-drawer
       app
@@ -110,25 +111,25 @@
 </template>
 
 <script>
-import vueHeadful from "vue-headful";
-import { mapGetters } from "vuex";
+import vueHeadful from 'vue-headful';
+import { mapGetters } from 'vuex';
 
-import Station from "./classes/Station";
-import Set from "./classes/Set";
+import Station from './classes/Station';
+import Set from './classes/Set';
 
-import AppBars from "./components/AppBars";
+import AppBars from './components/AppBars';
 // modal imports
-import AddStationModal from "./components/AddStationModal";
-import SetModal from "./components/SetModal";
-import EditSetModal from "./components/EditSetModal";
+import AddStationModal from './components/AddStationModal';
+import SetModal from './components/SetModal';
+import EditSetModal from './components/EditSetModal';
 
-import Home from "./views/Home";
-import Sets from "./views/Sets";
-import SetView from "./views/SetView";
-import Footer from "./components/Footer";
+import Home from './views/Home';
+import Sets from './views/Sets';
+import SetView from './views/SetView';
+import Footer from './components/Footer';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     vueHeadful,
     AppBars,
@@ -143,7 +144,6 @@ export default {
   data: () => ({
     //app data
     volume: 100,
-    currentStation: null,
     currentStationIndex: 0,
     currentSet: {},
     currentSetIndex: 0,
@@ -156,31 +156,29 @@ export default {
     setModalStation: null,
     editSetModal: false,
     //view data
-    view: "home",
+    view: 'home',
     //snackbar data
     snackbar: false,
-    snackbarText: "",
-    snackbarButton: "",
+    snackbarText: '',
+    snackbarButton: '',
     //undo data
-    deletedStation: null,
-    
+    deletedStation: null
   }),
   computed: {
     siteTitle() {
       return this.playing
-        ? this.currentStation.name + " - Livestream Radio"
-        : "Livestream Radio";
+        ? this.currentStation.name + ' - Livestream Radio'
+        : 'Livestream Radio';
     },
     modalOpen() {
       if (this.dialog || this.setModal || this.editSetModal) return true;
       return false;
     },
-    backgroundColor(){
-          var isDark = this.$vuetify.theme.dark ? 'dark' : 'light'
-          return this.$vuetify.theme.themes[isDark].backgroundColor;
+    backgroundColor() {
+      var isDark = this.$vuetify.theme.dark ? 'dark' : 'light';
+      return this.$vuetify.theme.themes[isDark].backgroundColor;
     },
-    ...mapGetters(["userData", "currentStation", "player", "playing"])
-
+    ...mapGetters(['userData', 'currentStation', 'player', 'playing'])
   },
   methods: {
     //snackbar methods
@@ -191,10 +189,10 @@ export default {
     },
     handleSnackbarMethod() {
       switch (this.snackbarButton) {
-        case "undo":
+        case 'undo':
           this.undoDeleteStation();
           break;
-        case "close":
+        case 'close':
           this.snackbar = false;
         default:
           break;
@@ -216,7 +214,7 @@ export default {
     //footer methods
     handleFooterClick(buttonName, event) {
       switch (buttonName) {
-        case "play_arrow":
+        case 'play_arrow':
           //prevents function from being double triggered
           //if the play button has focus and user presses spacebar
           if (event.detail == 1 && this.currentStation) {
@@ -224,11 +222,11 @@ export default {
           }
           break;
 
-        case "skip_previous":
+        case 'skip_previous':
           this.previousStation();
           break;
 
-        case "skip_next":
+        case 'skip_next':
           this.nextStation();
           break;
 
@@ -240,11 +238,11 @@ export default {
     handleSetPlayer(player) {
       this.player = player;
     },
-    togglePlayPauseButton(val){
+    togglePlayPauseButton(val) {
       this.playing = val;
     },
     toggleVideo() {
-      if(this.player && this.currentStation) {
+      if (this.player && this.currentStation) {
         this.playing ? this.player.pauseVideo() : this.player.playVideo();
         this.playing = !this.playing;
       }
@@ -294,7 +292,7 @@ export default {
       this.currentSet = set;
       for (let i = 0; i < this.userData.sets.length; i++) {
         if (this.userData.sets[i] === set) {
-          console.log("match found!");
+          console.log('match found!');
           this.currentSetIndex = i;
           break;
         }
@@ -305,7 +303,7 @@ export default {
     changeViewedSet(set, index) {
       this.viewedSet = set;
       this.viewedSetIndex = index;
-      this.changeView("set");
+      this.changeView('set');
     },
     addToSet(station) {
       this.setModal = true;
@@ -313,24 +311,24 @@ export default {
     },
     handleAddToSet(setIndex) {
       if (this.userData.sets[setIndex].contains(this.setModalStation)) {
-        this.triggerSnackbar("station already exists in set!", "close");
+        this.triggerSnackbar('station already exists in set!', 'close');
       } else {
         this.userData.sets[setIndex].add(this.setModalStation);
         this.triggerSnackbar(
           `${this.setModalStation.name} added to ${this.userData.sets[setIndex].name}!`,
-          "close"
+          'close'
         );
       }
       this.updateLocalStorage();
     },
     createSet(name, description) {
       this.userData.sets.push(new Set(name, description, this.setModalStation));
-      this.triggerSnackbar(`created ${name}!`, "close");
+      this.triggerSnackbar(`created ${name}!`, 'close');
       this.updateLocalStorage();
     },
     deleteSet(index, snackbarText, snackbarButton, set) {
-      if (this.view === "set" && this.viewedSet === set) {
-        this.changeView("home");
+      if (this.view === 'set' && this.viewedSet === set) {
+        this.changeView('home');
       }
       if (set === this.currentSet) {
         this.currentSet = {};
@@ -343,27 +341,27 @@ export default {
       this.editSetModal = true;
     },
     updateSet(index, name, description) {
-      this.$set(this.userData.sets[index], "name", name);
-      this.$set(this.userData.sets[index], "description", description);
+      this.$set(this.userData.sets[index], 'name', name);
+      this.$set(this.userData.sets[index], 'description', description);
     },
     removeFromSet(station) {
       let setIndex = 0;
-      if (this.view === "set") {
+      if (this.view === 'set') {
         setIndex = this.viewedSetIndex;
-      } else if (this.view === "home") {
+      } else if (this.view === 'home') {
         removeIndex = this.currentSetIndex;
       }
 
       //edge case of last station in set
       if (this.userData.sets[setIndex].stations.length <= 1) {
-        console.log("last one in set!");
+        console.log('last one in set!');
         this.deleteSet(
           setIndex,
           `${station.name} removed and ${this.userData.sets[setIndex].name} deleted`,
-          "close",
+          'close',
           this.userData.sets[setIndex]
         );
-        console.log("last one in set!");
+        console.log('last one in set!');
         this.updateLocalStorage();
         return;
       }
@@ -379,7 +377,10 @@ export default {
 
       this.userData.sets[setIndex].stations.splice(removeIndex, 1);
 
-      this.triggerSnackbar(`${station.name} removed from ${this.userData.sets[setIndex].name}`, "close");
+      this.triggerSnackbar(
+        `${station.name} removed from ${this.userData.sets[setIndex].name}`,
+        'close'
+      );
 
       this.updateLocalStorage();
     },
@@ -412,50 +413,49 @@ export default {
     },
     //storage methods
     updateLocalStorage() {
-      localStorage.setItem("userData", JSON.stringify(this.userData));
+      localStorage.setItem('userData', JSON.stringify(this.userData));
     },
     loadLocalStorage() {
-      let storedData = JSON.parse(localStorage.getItem("userData"));
+      let storedData = JSON.parse(localStorage.getItem('userData'));
       if (storedData) {
         this.userData = storedData;
       } else {
-        console.log("looks like this is your first visit!");
+        console.log('looks like this is your first visit!');
         this.updateLocalStorage();
       }
     },
     //listener methods
     addListeners() {
-      document.addEventListener("keydown", e => {
+      document.addEventListener('keydown', e => {
         switch (e.code) {
-          case "Space":
+          case 'Space':
             if (!this.modalOpen) {
               e.preventDefault();
               this.toggleVideo();
             }
             break;
-          case "ArrowLeft":
-            if(!this.modalOpen) {
+          case 'ArrowLeft':
+            if (!this.modalOpen) {
               this.previousStation();
             }
             break;
-          case "ArrowRight":
-            if(!this.modalOpen) {
+          case 'ArrowRight':
+            if (!this.modalOpen) {
               this.previousStation();
             }
             break;
-          case "KeyA":
-            if(!this.modalOpen) {
+          case 'KeyA':
+            if (!this.modalOpen) {
               this.dialog = true;
             }
             break;
         }
       });
     },
-    toggleDarkMode(value){
+    toggleDarkMode(value) {
       this.userData.darkMode = value;
-      this.$vuetify.theme.dark= value;
+      this.$vuetify.theme.dark = value;
       this.updateLocalStorage();
-
     }
   },
   watch: {
@@ -467,38 +467,37 @@ export default {
   },
   beforeMount() {
     //debug seed data
-    // let stationSeedData = [
-    //   new Station(
-    //     "Lofi Hip Hop",
-    //     "https://www.youtube.com/watch?v=hHW1oY26kxQ"
-    //   ),
-    //   new Station(
-    //     "Lofi Hip Hop 2",
-    //     "https://www.youtube.com/watch?v=SGwXjk8MsWY"
-    //   ),
-    //   new Station("Hype Radio", "https://www.youtube.com/watch?v=GVC5adzPpiE")
-    // ];
-    // this.userData.stations = stationSeedData;
-    // this.userData.sets = [
-    //   new Set("Skrubtown Radio", "this is a skrub station", stationSeedData[0])
-    // ];
-    // this.userData.prevVolume = 50;
-    // this.currentStation = this.userData.stations[0];
-    // this.currentStationIndex = 0;
-    // this.updateLocalStorage();
+    let stationSeedData = [
+      new Station(
+        'Lofi Hip Hop',
+        'https://www.youtube.com/watch?v=hHW1oY26kxQ'
+      ),
+      new Station(
+        'Lofi Hip Hop 2',
+        'https://www.youtube.com/watch?v=SGwXjk8MsWY'
+      ),
+      new Station('Hype Radio', 'https://www.youtube.com/watch?v=GVC5adzPpiE')
+    ];
+    this.userData.stations = stationSeedData;
+    this.userData.sets = [
+      new Set('Skrubtown Radio', 'this is a skrub station', stationSeedData[0])
+    ];
+    this.userData.prevVolume = 50;
+    this.currentStation = this.userData.stations[0];
+    this.currentStationIndex = 0;
+    this.updateLocalStorage();
 
     // debug ends here
 
-    this.$store.dispatch("LoadLocalStorage");
-
+    this.$store.dispatch('LoadLocalStorage');
 
     //localStorage stores only object data, not class data
     //on load, recreates Set classes based on localStorage 'set' data
     if (this.userData.sets) {
       this.createSetsOnLoad();
     }
-    if(this.userData.darkMode){
-      this.$vuetify.theme.dark= this.userData.darkMode;
+    if (this.userData.darkMode) {
+      this.$vuetify.theme.dark = this.userData.darkMode;
     }
     // this.currentSet = this.userData.sets[0];
     // this.userData.sets[0].add(stationSeedData[2]);
@@ -510,9 +509,9 @@ export default {
     // });
 
     if (!this.currentStation && this.userData.stations[0]) {
-      this.$store.dispatch("ChangeStation", this.userData.stations[0],);
-      this.$store.dispatch("LoadVideo", this.userData.stations[0].id,);
-      this.$store.dispatch("StopVideo");
+      this.$store.dispatch('ChangeStation', this.userData.stations[0]);
+      this.$store.dispatch('LoadVideo', this.userData.stations[0].id);
+      this.$store.dispatch('StopVideo');
     }
     this.addListeners();
   }
@@ -529,10 +528,10 @@ export default {
   height: 100px;
   z-index: 100;
 }
-.dark-mode{
+.dark-mode {
   background-color: #303030 !important;
 }
-.light-mode{
-    background-color: #FAFAFA !important;
+.light-mode {
+  background-color: #fafafa !important;
 }
 </style>

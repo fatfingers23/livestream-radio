@@ -5,7 +5,7 @@
         <span class="font-weight-medium">Livestream</span>
         <span class="blue--text">Radio</span>
       </div>
-       <v-btn icon @click="toggleDarkMode">
+      <v-btn icon @click="toggleDarkMode">
         <v-icon v-if="!darkMode">wb_sunny</v-icon>
         <v-icon v-else>brightness_3</v-icon>
       </v-btn>
@@ -21,19 +21,18 @@
       width="100"
     >
       <div class="navbar-left">
-        <div
-          class="navbar-left__item"
-          v-for="(item, i) in views"
-          :key="i"
-          @click="$emit('changeView', item.name)"
-        >
-          <div class="navbar-left__icon">
-            <v-icon :color="item.name === view ? 'blue' : ( darkMode ? 'white' : 'black')">{{item.icon}}</v-icon>
-          </div>
-          <div
-            class="navbar-left__text"
-            :class="item.name === view ? 'blue--text' : ( darkMode ? 'white--text' : 'black--text')"
-          >{{item.name}}</div>
+        <div class="navbar-left__item" v-for="(item, i) in views" :key="i">
+          <router-link :to="item.route" style="text-decoration: none;">
+            <div class="navbar-left__icon">
+              <v-icon
+                :color="item.name.toUpperCase() === currentViewPathName.toUpperCase() ? 'blue' : ( darkMode ? 'white' : 'black')"
+              >{{item.icon}}</v-icon>
+            </div>
+            <div
+              class="navbar-left__text"
+              :class="item.name.toUpperCase() === currentViewPathName.toUpperCase() ? 'blue--text' : ( darkMode ? 'white--text' : 'black--text')"
+            >{{item.name}}</div>
+          </router-link>
         </div>
       </div>
     </v-navigation-drawer>
@@ -41,8 +40,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  name: "AppBars",
+  name: 'AppBars',
   props: {
     view: String,
     backgroundColor: String
@@ -50,26 +51,30 @@ export default {
   data: () => ({
     views: [
       {
-        name: "home",
-        icon: "home"
+        name: 'home',
+        icon: 'home',
+        route: '/'
       },
       {
-        name: "sets",
-        icon: "library_music"
+        name: 'sets',
+        icon: 'library_music',
+        route: '/sets'
       }
     ],
     darkMode: false
   }),
-  methods:{
-    toggleDarkMode(){
+  computed: {
+    ...mapGetters(['currentViewPathName'])
+  },
+  methods: {
+    toggleDarkMode() {
       this.darkMode = !this.darkMode;
-      this.$emit('toggleDarkMode', this.darkMode)
+      this.$emit('toggleDarkMode', this.darkMode);
     }
   },
   beforeMount() {
     this.darkMode = this.$vuetify.theme.dark;
   }
-
 };
 </script>
 

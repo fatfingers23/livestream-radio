@@ -7,11 +7,11 @@ const defaultState = {
 
 const actions = {
     LoadLocalStorage: (context) => {
-        let storedData = JSON.parse(localStorage.getItem("userData"));
+        let storedData = JSON.parse(localStorage.getItem('userData'));
         if (storedData) {
             context.commit('LOAD_LOCAL_STORAGE', storedData);
         } else {
-            localStorage.setItem("userData", JSON.stringify(defaultState));
+            localStorage.setItem('userData', JSON.stringify(defaultState));
         }
     }
 };

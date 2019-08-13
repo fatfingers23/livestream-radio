@@ -1,6 +1,5 @@
 const defaultState = {
     currentSet: [],
-    currentStation: []
   };
   
   const actions = {
@@ -13,7 +12,6 @@ const defaultState = {
   
   const getters = {
       currentSet: state => state.currentSet,
-      currentStation: state => state.currentStation
   };
   
   export default {

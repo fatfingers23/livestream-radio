@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "ContextMenu",
+  name: 'ContextMenu',
   props: {
     color: String,
     type: String,
@@ -30,9 +30,9 @@ export default {
   methods: {
     deleteStation() {
       let snackbarText = `Deleted ${this.station.name} from your stations.`;
-      let snackbarButton = "undo";
+      let snackbarButton = 'undo';
       this.$emit(
-        "deleteStation",
+        'deleteStation',
         this.stationIndex,
         snackbarText,
         snackbarButton
@@ -40,53 +40,49 @@ export default {
     },
     deleteSet() {
       let snackbarText = `Deleted ${this.set.name} from your sets.`;
-      let snackbarButton = "close";
-      this.$emit(
-        "deleteSet",
-        this.setIndex,
-        snackbarText,
-        snackbarButton
-      )
+      let snackbarButton = 'close';
+      this.$emit('deleteSet', this.setIndex, snackbarText, snackbarButton);
     },
     addToSet() {
-      this.$emit("addToSet", this.station);
+      this.$emit('addToSet', this.station);
     },
     removeFromSet() {
       this.$emit('removeFromSet', this.station);
     }
   },
   computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
     menuOptions() {
       switch (this.type) {
-        case "station":
+        case 'station':
           return [
             {
-              title: "Add to set",
+              title: 'Add to set',
               action: this.addToSet
             },
             {
-              title: "Delete from your stations",
+              title: 'Delete from your stations',
               action: this.deleteStation
             }
           ];
           break;
-        
-        case "set":
+
+        case 'set':
           return [
             {
-              title: "Delete set",
+              title: 'Delete set',
               action: this.deleteSet
             }
-          ]
+          ];
           break;
 
-        case "stationInSet":
+        case 'stationInSet':
           return [
             {
-              title: "Remove from set",
+              title: 'Remove from set',
               action: this.removeFromSet
             }
-          ]
+          ];
 
         default:
           break;

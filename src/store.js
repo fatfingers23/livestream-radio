@@ -7,7 +7,23 @@ import station from '@/modules/station.js';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
+  actions:{
+    SetCurrentViewName:({commit}, viewPathName) => {
+      commit('SET_VIEW_PATH_NAME', viewPathName);
+    }
+  },
+  state:{
+    currentViewPathName: 'Home'
+  },
+  getters:{
+    currentViewPathName: state => state.currentViewPathName
+  },
+  mutations: {
+    SET_VIEW_PATH_NAME: (state, viewPathName) =>{
+      state.currentViewPathName = viewPathName;
+    }
+  },
   modules: {
     sets: setsModule,
     userData: userData,
@@ -15,3 +31,5 @@ export default new Vuex.Store({
     station: station
   }
 });
+
+export default store;

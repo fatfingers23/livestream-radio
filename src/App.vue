@@ -45,7 +45,7 @@
     </v-dialog>
 
     <v-content>
-      <Home
+      <!-- <Home
         v-show="view === 'home'"
         key="home"
         :currentSet="currentSet"
@@ -82,11 +82,13 @@
         @removeFromSet="removeFromSet"
       ></SetView>
 
-      <!-- snackbar -->
       <v-snackbar v-model="snackbar" :timeout="4000" bottom right>
         {{snackbarText}}
         <v-btn color="pink" text @click="handleSnackbarMethod">{{snackbarButton}}</v-btn>
-      </v-snackbar>
+      </v-snackbar> -->
+
+          <router-view/>
+
     </v-content>
 
     <Footer

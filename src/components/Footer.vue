@@ -28,6 +28,7 @@
 
 <script>
 import ShortcutModal from './ShortcutModal';
+import { mapGetters } from 'vuex';
 
 class Icon {
   constructor(name, options) {
@@ -51,10 +52,6 @@ export default {
     ShortcutModal
   },
   props: {
-    playing: Boolean,
-    volume: Number,
-    currentStation: Object,
-    darkMode: Boolean,
     backgroundColor: String
   },
   data: () => ({
@@ -79,14 +76,20 @@ export default {
     },
     whiteOrBlack(){
       return this.darkMode ? 'white' : 'black';
-    }
+    },
+    ...mapGetters(['playing', 'volume', 'currentStation', 'darkMode'])
   },
   methods: {
     footerClick(iconName, event) {
       if(iconName === 'keyboard') {
         this.shortcutModal = true;
       } else {
-        this.$emit('footerClick', iconName, event);
+        
+        //prevents function from being double triggered
+        //if the play button has focus and user presses spacebar
+        if (event.detail == 1 && this.currentStation) {
+          this.$store.dispatch('HandleFootClick', iconName);
+        }
       }
     },
     volumeChange(payload) {

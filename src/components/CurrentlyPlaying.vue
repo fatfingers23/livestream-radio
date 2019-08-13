@@ -12,7 +12,13 @@
           <div class="display-1">Currently Playing</div>
           <div class="title-underline blue mt-3 mb-6"></div>
           <v-responsive v-show="currentStation" :aspect-ratio="16/9">
-            <youtube ref="youtube" width="100%" height="100%" @playing="togglePlay" @paused="togglePause" ></youtube>
+            <youtube
+              ref="youtube"
+              width="100%"
+              height="100%"
+              @playing="togglePlay"
+              @paused="togglePause"
+            ></youtube>
           </v-responsive>
           <span v-show="!currentStation">Nothing is currently playing!</span>
         </v-flex>
@@ -53,42 +59,45 @@
 </template>
 
 <script>
-import RecentStations from "../components/RecentStations";
-import Station from "../components/Station";
+import RecentStations from '../components/RecentStations';
+import Station from '../components/Station';
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "CurrentlyPlaying",
+  name: 'CurrentlyPlaying',
   components: {
     RecentStations,
     Station
   },
   props: {
-    userData: Object,
-    currentSet: Object,
-    currentStation: Object
+    currentSet: Object
   },
   methods: {
     changeStation(station, stationIndex) {
-      this.$emit("changeStation", station, stationIndex);
+      this.$emit('changeStation', station, stationIndex);
+      this.$store.dispatch('changeStation', station);
     },
     handleDeleteStation(stationIndex, snackbarText, snackbarButton) {
-      this.$emit("deleteStation", stationIndex, snackbarText, snackbarButton);
+      this.$emit('deleteStation', stationIndex, snackbarText, snackbarButton);
     },
     handleAddToSet(station) {
-      this.$emit("addToSet", station);
+      this.$emit('addToSet', station);
     },
     handleRemoveFromSet(station) {
       this.$emit('removeFromSet', station);
     },
-    togglePlay(){
-      this.$emit('youtubeTogglePlayPause', true);
+    togglePlay() {
+      this.$store.dispatch('PlayVideo');
     },
-    togglePause(){
-      this.$emit('youtubeTogglePlayPause', false);
+    togglePause() {
+      this.$store.dispatch('PauseVideo');
     }
   },
+  computed: {
+    ...mapGetters(['userData', 'currentStation'])
+  },
   mounted() {
-    this.$emit("setPlayer", this.$refs.youtube.player);
+    this.$store.dispatch('HandleSetPlayer', this.$refs.youtube.player);
   }
 };
 </script>

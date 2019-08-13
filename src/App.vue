@@ -93,10 +93,6 @@
 
     <Footer
       @footerClick="handleFooterClick"
-      :playing="playing"
-      :volume.sync="volume"
-      :currentStation="currentStation"
-      :darkMode="userData.darkMode"
       :backgroundColor="backgroundColor"
     ></Footer>
 
@@ -115,6 +111,7 @@
 
 <script>
 import vueHeadful from "vue-headful";
+import { mapGetters } from "vuex";
 
 import Station from "./classes/Station";
 import Set from "./classes/Set";
@@ -145,7 +142,6 @@ export default {
   },
   data: () => ({
     //app data
-    playing: false,
     volume: 100,
     currentStation: null,
     currentStationIndex: 0,
@@ -159,7 +155,6 @@ export default {
     setModal: false,
     setModalStation: null,
     editSetModal: false,
-    player: null,
     //view data
     view: "home",
     //snackbar data
@@ -168,13 +163,7 @@ export default {
     snackbarButton: "",
     //undo data
     deletedStation: null,
-    //user data
-    userData: {
-      stations: [],
-      sets: [],
-      prevVolume: 10,
-      darkMode: false
-    }
+    
   }),
   computed: {
     siteTitle() {
@@ -190,6 +179,8 @@ export default {
           var isDark = this.$vuetify.theme.dark ? 'dark' : 'light'
           return this.$vuetify.theme.themes[isDark].backgroundColor;
     },
+    ...mapGetters(["userData", "currentStation", "player", "playing"])
+
   },
   methods: {
     //snackbar methods
@@ -498,7 +489,8 @@ export default {
 
     // debug ends here
 
-    this.loadLocalStorage();
+    this.$store.dispatch("LoadLocalStorage");
+
 
     //localStorage stores only object data, not class data
     //on load, recreates Set classes based on localStorage 'set' data
@@ -518,9 +510,9 @@ export default {
     // });
 
     if (!this.currentStation && this.userData.stations[0]) {
-      this.changeStation(this.userData.stations[0], 0);
-      this.playing = false;
-      this.player.stopVideo();
+      this.$store.dispatch("ChangeStation", this.userData.stations[0],);
+      this.$store.dispatch("LoadVideo", this.userData.stations[0].id,);
+      this.$store.dispatch("StopVideo");
     }
     this.addListeners();
   }

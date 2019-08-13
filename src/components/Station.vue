@@ -36,7 +36,11 @@ export default {
   methods: {
     handleRemoveFromSet(station) {
       this.$emit('removeFromSet', station);
-    }
+    },
+    changeStation(station) {
+      this.$emit("changeStation", station);
+      this.$store.dispatch("changeStation", station)
+    },
   },
 }
 

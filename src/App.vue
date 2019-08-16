@@ -467,25 +467,25 @@ export default {
   },
   beforeMount() {
     //debug seed data
-    let stationSeedData = [
-      new Station(
-        'Lofi Hip Hop',
-        'https://www.youtube.com/watch?v=hHW1oY26kxQ'
-      ),
-      new Station(
-        'Lofi Hip Hop 2',
-        'https://www.youtube.com/watch?v=SGwXjk8MsWY'
-      ),
-      new Station('Hype Radio', 'https://www.youtube.com/watch?v=GVC5adzPpiE')
-    ];
-    this.userData.stations = stationSeedData;
-    this.userData.sets = [
-      new Set('Skrubtown Radio', 'this is a skrub station', stationSeedData[0])
-    ];
-    this.userData.prevVolume = 50;
-    this.currentStation = this.userData.stations[0];
-    this.currentStationIndex = 0;
-    this.updateLocalStorage();
+    // let stationSeedData = [
+    //   new Station(
+    //     'Lofi Hip Hop',
+    //     'https://www.youtube.com/watch?v=hHW1oY26kxQ'
+    //   ),
+    //   new Station(
+    //     'Lofi Hip Hop 2',
+    //     'https://www.youtube.com/watch?v=SGwXjk8MsWY'
+    //   ),
+    //   new Station('Hype Radio', 'https://www.youtube.com/watch?v=GVC5adzPpiE')
+    // ];
+    // this.userData.stations = stationSeedData;
+    // this.userData.sets = [
+    //   new Set('Skrubtown Radio', 'this is a skrub station', stationSeedData[0])
+    // ];
+    // this.userData.prevVolume = 50;
+    // this.currentStation = this.userData.stations[0];
+    // this.currentStationIndex = 0;
+    // this.updateLocalStorage();
 
     // debug ends here
 
@@ -499,8 +499,6 @@ export default {
     if (this.userData.darkMode) {
       this.$vuetify.theme.dark = this.userData.darkMode;
     }
-    // this.currentSet = this.userData.sets[0];
-    // this.userData.sets[0].add(stationSeedData[2]);
   },
   mounted() {
     // this.player.loadVideoById(this.userData.stations[0].id).then(() => {

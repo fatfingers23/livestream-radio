@@ -9,7 +9,7 @@ const actions = {
         commit('CHANGE_STATION', station, stationIndex);
         dispatch('LoadVideo', station.id);
     },
-    PreviousStation: (context, state ) => {
+    PreviousStation: (context, state) => {
         let setsVuexStore = context.rootState.sets;
 
         if (setsVuexStore.currentSet.name) {
@@ -17,7 +17,7 @@ const actions = {
                 state.stationInSetIndex = state.currentSet.stations.length - 1;
             } else {
                 state.stationInSetIndex--;
-            }            
+            }
             context.commit('CHANGE_STATION',
                 setsVuexStore.currentSet.stations[state.stationInSetIndex],
                 state.stationInSetIndex
@@ -28,7 +28,7 @@ const actions = {
 
 const mutations = {
     CHANGE_STATION: (state, station, stationIndex) => {
-        state.currentStation = station.station;
+        state.currentStation = station;
         state.stationInSetIndex = stationIndex;
     }
 };

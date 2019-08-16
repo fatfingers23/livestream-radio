@@ -69,9 +69,7 @@ export default {
     RecentStations,
     Station
   },
-  props: {
-    currentSet: Object
-  },
+  props: {},
   methods: {
     changeStation(station, stationIndex) {
       this.$emit('changeStation', station, stationIndex);
@@ -94,7 +92,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userData', 'currentStation'])
+    ...mapGetters(['userData', 'currentStation', 'currentSet'])
   },
   mounted() {
     this.$store.dispatch('HandleSetPlayer', this.$refs.youtube.player);

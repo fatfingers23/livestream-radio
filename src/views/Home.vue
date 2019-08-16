@@ -1,8 +1,6 @@
 <template>
   <CurrentlyPlaying
-    :currentSet="currentSet"
     :currentStation="currentStation"
-    @changeStation="changeStation"
     @deleteStation="deleteStation"
     @addToSet="addToSet"
     @removeFromSet="removeFromSet"
@@ -20,7 +18,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['currentSet', 'currentStation', 'userData'])
+    ...mapGetters(['currentStation', 'userData'])
   }
 };
 </script>
